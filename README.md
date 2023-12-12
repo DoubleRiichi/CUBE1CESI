@@ -6,4 +6,4 @@ Bienvenue chez _météoCube_, votre station météo personnelle pour une expéri
 
 ## Téchnologies utilisées :
 
-## Projet mené par Hanan, Jimmy, Mael  et Thomas développeur chez "Lepetit", société qui commercialise des objects connectés pour la maison depuis 1992.
+Projet mené par Hanan, Jimmy, Mael  et Thomas développeurs chez "Lepetit", société qui commercialise des objets connectés pour la maison depuis 1992.
