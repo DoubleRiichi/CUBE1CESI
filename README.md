@@ -4,7 +4,7 @@ Bienvenue chez _météoCube_, votre station météo personnelle pour une expéri
 
 ## Caractéristiques :
 
-## Téchnologies utilisées :
+## Technologies utilisées :
   * MySQL
   * Item 2
   * Item 2a
