@@ -5,7 +5,7 @@ function getCredential() {
     
     $user = fgets($file);
     $pwd  = fgets($file);
-    
+
     return array($user, $pwd);
 }
 
@@ -18,6 +18,6 @@ try {
         echo "ça marche!";
     } catch (PDOException $e) {
         // attempt to retry the connection after some timeout for example
-        echo "Erreur";
+        echo $e;
     }
 ?>
