@@ -5,8 +5,6 @@ function getCredential() {
     
     $user = fgets($file);
     $pwd  = fgets($file);
-    echo $user;
-    echo $pwd;
     
     return array($user, $pwd);
 }
