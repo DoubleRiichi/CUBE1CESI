@@ -1,9 +1,22 @@
 <?php
 // Report all PHP errors
-error_reporting(E_ALL);
+function getCredential() {
+    $file = fopen("/home/jimmy/.env", "r");
+    
+    $user = fgets($file);
+    $pwd  = fgets($file);
+    echo $user;
+    echo $pwd;
+    
+    return array($user, $pwd);
+}
+
+
 
 try {
-        $dbh = new PDO('mysql:host=localhost;dbname=meteocube', "mael@localhost", "mael");
+
+        $cred = getCredential();
+        $dbh = new PDO('mysql:host=localhost;dbname=test', $cred[0], $cred[1]);
         echo "ça marche!";
     } catch (PDOException $e) {
         // attempt to retry the connection after some timeout for example
