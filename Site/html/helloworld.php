@@ -1,3 +1,29 @@
+<?php
+$serveur = "localhost"; // Adresse du serveur MySQL
+$utilisateur = "root"; // Nom d'utilisateur MySQL
+//$motDePasse = "votre_mot_de_passe"; // Mot de passe MySQL
+$baseDeDonnees = "meteocube"; // Nom de la base de données
+
+try {
+    // Création de la connexion
+    $connexion = new PDO("mysql:host=$serveur;dbname=$baseDeDonnees", $utilisateur);
+
+    // Configuration des options de PDO (facultatif)
+    $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Votre code ici
+
+    // Fermer la connexion
+    $connexion = null;
+} catch (PDOException $e) {
+    die("Erreur de connexion à la base de données : " . $e->getMessage());
+}
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
