@@ -2,7 +2,7 @@
 
     <div class="container">
         <div class="login-page">
-        <div class="form">
+        <div class="form" style="border-radius: 25px;">
             <form class="login-form">
             <input type="text" placeholder="Identifiant"/>
             <input type="password" placeholder="Mot de passe"/>
