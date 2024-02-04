@@ -1,5 +1,4 @@
 <?php
-
 ?>
 
 <footer class="text-center text-lg-start bg-body-tertiary text-muted">
