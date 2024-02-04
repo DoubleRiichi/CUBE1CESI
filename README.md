@@ -6,8 +6,14 @@ Bienvenue chez _météoCube_, votre station météo personnelle pour une expéri
 
 ## Technologies utilisées :
   * MySQL
-  * Item 2
-  * Item 2a
-  * Item 2b
+  * Php 8
+  * HTML
+  * CSS
+  * JS
+    
+## Librairies :
+  * Leaflet
+  * Bootswatch Thèmes gratuit pour bootstrap (https://bootswatch.com/)
+  
 
 Projet mené par Hanan, Jimmy, Mael  et Thomas développeurs chez "Lepetit", société qui commercialise des objets connectés pour la maison depuis 1992.
