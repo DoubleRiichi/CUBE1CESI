@@ -3,7 +3,8 @@ use MeteoCube\Config;
 require_once('config.php');
 require_once('database.php');
 
-include 'header.php'; 
+
+include 'header.php';
 
 // Vérifiez si des données ont été soumises via le formulaire
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -27,16 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <a class='btn btn-primary' href='connexion.php'>Connexion</a>
         </div>";
     }
-    if (isset($_GET['error'])) {
-        if (isset($_GET['email'])) {
-            echo "<p class='text-danger text-center'>Cet email existe déjà.<br> Merci d'utiliser une autre adresse mail</p>";
-        }
-    }
-
+    
     // Par exemple, redirigez l'utilisateur vers une page d'accueil après l'inscription
+    echo "Redirection vers index.php";
     header("Location: index.php");
     exit();
-};
+}
 
 include 'main.php';
 include 'footer.php';
