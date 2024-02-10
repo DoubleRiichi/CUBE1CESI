@@ -11,6 +11,9 @@ L'utilisateur en se connectant peut accèder au suivi des dernièrs relevés mé
   * HTML
   * CSS
   * JS
+  * WampServer
+  * Apache
+  * PhpMyAdmin 5.1
     
 ## Librairies :
   * Leaflet
