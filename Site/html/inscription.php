@@ -20,17 +20,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         while ($email_verification = $req->fetch()) {
             if ($email_verification['numberEmail'] != 0) {
                 header("Location: connexion.php?error=emailExists");
-                //exit();
             }
         }
 
-        // Cryptage du mot de passe
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        
+        //création d'un "grain de sel" pour crypter le mot de passe
+        //utilisation de la fonction random_bytes pour générer une chaîne de caractères aléatoires
+        $salt = bin2hex(random_bytes(16));
 
-        // Envoie de la requête sur la BDD
-        $insertQuery = $bdd->prepare('INSERT INTO utilisateur (login, email, mot_de_passe, Role) VALUES (?, ?, ?, ?)');
-        $insertQuery->execute(array($login, $email, $hashedPassword, 'user'));
+        $password = password_hash($password . $salt, PASSWORD_BCRYPT);
 
+        // Utilisation de paramètres de requête pour éviter les attaques par injection SQL
+        // $req = $bdd->prepare('SELECT * FROM utilisateur WHERE login = :login');
+        // $req->execute(array('login' => $login));
+
+        $req = $bdd->prepare('INSERT INTO utilisateur (login, email, mot_de_passe, Role) VALUES (?, ?, ?, ?)');
+        $req->execute(array($login, $email, $password, 'user'));
+
+        header("Location: inscription.php/?success=1");
 
         // Redirection après l'inscription réussie
         header("Location: index.php");

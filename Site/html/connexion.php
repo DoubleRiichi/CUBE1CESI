@@ -11,6 +11,7 @@ if(isset($_GET['error']) && $_GET['error'] == 'emailExists'){
     echo "<p class='container mb-4 alert alert-danger my-5' role='alert'>L'email existe déjà</p>";
 }
 
+
 ?>
 
 <div class="container">
