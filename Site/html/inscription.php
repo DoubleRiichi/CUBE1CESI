@@ -3,6 +3,7 @@ include 'header.php';
 use MeteoCube\Config;
 
 require_once('config.php');
+require_once('database.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['login']) && !empty($_POST['mot_de_passe']) && !empty($_POST['email'])) {
@@ -10,26 +11,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $login      = $_POST['login'];
         $email      = $_POST['email'];
         $password   = $_POST['mot_de_passe'];
-    
-    
-        // Cryptage du mot de passe
-        $password = "aq1" . sha1($password . "1254") . "25";
-    
-        // Vérifiez si l'email existe déjà dans la base de données
+
+
+         // Vérifiez si l'email existe déjà dans la base de données
         $req = $bdd->prepare('SELECT count(*) as numberEmail FROM utilisateur WHERE email = ?');
         $req->execute(array($email));
-    
-        while ($email_row = $req->fetch()) {
-            if ($email_row['numberEmail'] != 0) {
-                echo "L'email existe déjà";
-                header("Location: inscription.php?error=1&email=1L'email existe déjà");
-                exit();
+
+        while ($email_verification = $req->fetch()) {
+            if ($email_verification['numberEmail'] != 0) {
+                header("Location: connexion.php?error=emailExists");
+                //exit();
             }
         }
-    
-        //Envoie de la requête sur la BDD
-        $req = $bdd->prepare('INSERT INTO utilisateur (login, email, mot_de_passe, Role) VALUES (?, ?, ?, ?)');
-        $req->execute(array($login, $email, $password, 'user'));
+
+        // Cryptage du mot de passe
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        // Envoie de la requête sur la BDD
+        $insertQuery = $bdd->prepare('INSERT INTO utilisateur (login, email, mot_de_passe, Role) VALUES (?, ?, ?, ?)');
+        $insertQuery->execute(array($login, $email, $hashedPassword, 'user'));
+
 
         // Redirection après l'inscription réussie
         header("Location: index.php");
@@ -50,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                 <p class="text-primary text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Inscription</p>
 
-                                <form method="post" action="index.php" class="register-form">
+                                <form method="post" action="inscription.php" class="register-form">
 
                                     <div>
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>

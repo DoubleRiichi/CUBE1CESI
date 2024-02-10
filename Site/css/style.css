@@ -5,7 +5,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: url('/img/weather.jpg'); /* Remplacez 'background-image.jpg' par le chemin de votre image de fond */
+    background-image: url('/img/weather.jpg'); 
     background-size: cover;
     background-position: center;
     color: white;

@@ -5,6 +5,11 @@ include 'header.php';
 use MeteoCube\Config;
 
 require_once('config.php');
+require_once('database.php');
+
+if(isset($_GET['error']) && $_GET['error'] == 'emailExists'){
+    echo "<p class='container mb-4 alert alert-danger my-5' role='alert'>L'email existe déjà</p>";
+}
 
 ?>
 
