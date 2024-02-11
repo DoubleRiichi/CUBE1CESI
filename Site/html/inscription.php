@@ -1,4 +1,4 @@
-<?php 
+<?php
 include 'header.php';
 use MeteoCube\Config;
 
@@ -12,35 +12,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email      = $_POST['email'];
         $password   = $_POST['mot_de_passe'];
 
-
-         // Vérifiez si l'email existe déjà dans la base de données
+        // Vérifiez si l'email existe déjà dans la base de données
         $req = $bdd->prepare('SELECT count(*) as numberEmail FROM utilisateur WHERE email = ?');
         $req->execute(array($email));
 
-        while ($email_verification = $req->fetch()) {
-            if ($email_verification['numberEmail'] != 0) {
-                header("Location: connexion.php?error=emailExists");
-            }
+        $email_verification = $req->fetch();
+
+        if ($email_verification['numberEmail'] != 0) {
+            header("Location: connexion.php?error=emailExists");
+            exit();
         }
 
-        
-        //création d'un "grain de sel" pour crypter le mot de passe
-        //utilisation de la fonction random_bytes pour générer une chaîne de caractères aléatoires
+        // Création d'un "grain de sel" pour crypter le mot de passe
         $salt = bin2hex(random_bytes(16));
 
         $password = password_hash($password . $salt, PASSWORD_BCRYPT);
 
-        // Utilisation de paramètres de requête pour éviter les attaques par injection SQL
-        // $req = $bdd->prepare('SELECT * FROM utilisateur WHERE login = :login');
-        // $req->execute(array('login' => $login));
-
+        // Insertion dans la base de données
         $req = $bdd->prepare('INSERT INTO utilisateur (login, email, mot_de_passe, Role) VALUES (?, ?, ?, ?)');
         $req->execute(array($login, $email, $password, 'user'));
 
-        header("Location: inscription.php/?success=1");
-
         // Redirection après l'inscription réussie
-        header("Location: index.php");
+        header("Location: mon_compte.php?success=1&message=Bienvenue " . urlencode($login));
         exit();
     }
 }

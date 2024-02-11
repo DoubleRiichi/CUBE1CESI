@@ -7,10 +7,39 @@ use MeteoCube\Config;
 require_once('config.php');
 require_once('database.php');
 
-if(isset($_GET['error']) && $_GET['error'] == 'emailExists'){
-    echo "<p class='container mb-4 alert alert-danger my-5' role='alert'>L'email existe déjà</p>";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!empty($_POST['login']) && !empty($_POST['password'])) {
+        $login = $_POST['login'];
+        $password = $_POST['password'];
+
+        $req = $bdd->prepare('SELECT * FROM utilisateur WHERE login = ?');
+        $req->execute(array($login));
+        $user = $req->fetch();
+
+        if ($user && password_verify($password . $user['salt'], $user['mot_de_passe'])) {
+            // Authentification réussie, démarrez la session et redirigez vers mon_compte.php
+            session_start();
+            $_SESSION['user_id'] = $user['id']; 
+            header("Location: mon_compte.php?success=1");
+            exit();
+        } else {
+            // Authentification échouée, redirigez vers une page d'erreur
+            header("Location: connexion.php?error=authFailed");
+            exit();
+        }
+    }
 }
 
+//Gestion des alertes
+if (isset($_GET['error']) && $_GET['error'] == 'authFailed') {
+    echo "<p class='container mb-4 alert alert-danger my-5' role='alert'>Identifiant ou mot de passe incorrect</p>";
+}
+if (isset($_GET['error']) && $_GET['error'] == 'emailExists') {
+    echo "<p class='container mb-4 alert alert-danger my-5' role='alert'>L'email existe déjà</p>";
+}
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    echo "<p class='container mb-4 alert alert-success my-5' role='alert'>Inscription réussie</p>";
+}
 
 ?>
 

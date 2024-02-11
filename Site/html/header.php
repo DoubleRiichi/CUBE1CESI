@@ -1,5 +1,15 @@
 <?php
+session_start();
+
+// Vérifier si l'utilisateur n'est pas connecté
+// if (!isset($_SESSION['user_id'])) {
+//     // Rediriger vers la page de connexion
+//     header("Location: connexion.php");
+//     exit();
+// }
+
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -21,27 +31,43 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-                <div class="container-fluid">
-                <a class="navbar-brand" href="index.php">
-                    <img src="/img/meteocube_logo.png" alt="logo site"/></a>               
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarColor01">
-                    <ul class="navbar-nav m-auto">
+   <header>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.php">
+                <img src="/img/meteocube_logo.png" alt="logo site"/>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav m-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Accueil</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="connexion.php">Connexion</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="inscription.php">Inscription</a>
-                    </li>
-                    </ul>
-                </div>
-                </div>
-        </nav>   
-    </header>
+                    <?php
+                    // Vérifie si le paramètre 'success' est présent dans l'URL
+                    if (isset($_GET['success']) && $_GET['success'] == 1) {
+                        // Affiche le bouton "Mon Compte" et "Déconnexion" si connecté
+                        echo '<li class="nav-item">
+                                <a class="nav-link" href="mon_compte.php">Mon Compte</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link btn btn-danger" href="index.php">Déconnexion</a>
+                            </li>';
+                    } else {
+                        // Affiche les liens Connexion et Inscription si non connecté
+                        echo '<li class="nav-item">
+                                <a class="nav-link" href="connexion.php">Connexion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="inscription.php">Inscription</a>
+                            </li>';
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+

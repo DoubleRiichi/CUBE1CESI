@@ -24,14 +24,17 @@ function initMap() {
         var marker = L.marker([45.20718002319336, 5.788233757019043]).addTo(mymap);
 
         // Ajouter une popup au marqueur
-        marker.bindPopup("<b>Vous êtes ici!</b><br>").openPopup();
+        marker.bindPopup("<b>On est ici !</b><br>").openPopup();
     } else {
         console.error("L'élément avec l'ID 'map' n'a pas été trouvé.");
     }
 }
 
+
+
 // Appeler la fonction une fois que le DOM est complètement chargé
 document.addEventListener('DOMContentLoaded', initMap);
+
 
 
 

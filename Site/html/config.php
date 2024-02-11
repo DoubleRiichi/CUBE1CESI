@@ -12,7 +12,7 @@ class Config {
     const DB_PASSWORD = '';
 
     //Autres parametres de configuration
-    const DEBUG_MODE = true ;
+    const DEBUG_MODE = false;
     const DEFAULT_LANGUAGE = 'fr';
     
 }
