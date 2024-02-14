@@ -1,6 +1,8 @@
 <?php
 
 require("./BDD.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
@@ -15,7 +17,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $dbAccess = new Database;
         $res = $dbAccess->insert_measure($temp, $humidite,  $pression, $date); //Et voilà! dans la BDD       
 
-        echo $res;
+        echo $res
     }
     
 }

@@ -1,5 +1,7 @@
 <?php 
 
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 
 class Database {
        
@@ -7,8 +9,8 @@ class Database {
     protected const PORT   = "3306";
     protected const DBNAME = "meteocube";
     protected const ENC    = "utf8";
-    protected const USER   = "root";
-    protected const PASS   = "";
+    protected const USER   = "meteocube";
+    protected const PASS   = "rock";
 
     static function connect_db() {
 
