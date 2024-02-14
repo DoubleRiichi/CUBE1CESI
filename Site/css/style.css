@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    /* overflow: hidden; */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('/img/mountain.jpg'); 
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+img{
+    width: 16vh;
+    cursor: pointer;
+}
+
+.brand{
+    color: #647c85;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Map */
+#map {
+    height: 400px;
+}
