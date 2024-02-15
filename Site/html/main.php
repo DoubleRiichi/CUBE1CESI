@@ -21,7 +21,7 @@ require_once('database.php');
             <div class="row">
             <h1 class="fw-bold">Bienvenue sur MeteoCube</h1>
                 <div class="col-md-6 text-center">
-                    <img src="/img/baloon.png" alt="station" class="img-fluid">
+                    <img src="../img/baloon.png" alt="station" class="img-fluid">
                 </div>    
                 <div class="col-md-6">
                     <h2 class="fw-bolder">Qui sommes-nous ?</h2>

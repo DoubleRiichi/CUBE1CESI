@@ -16,3 +16,4 @@ class Config {
     const DEFAULT_LANGUAGE = 'fr';
     
 }
+

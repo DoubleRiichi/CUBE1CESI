@@ -33,8 +33,7 @@ function API_get($endpoint, $data) { // $data doit être un tableau, le tableau 
 
     $parameters = http_build_query($data);
 
-    $full_url = API_URL . $endpoint . '.php' . '?' . $parameters; //http://URL/FILE.PHP?ARGS
-
+    $full_url = API_URL . $endpoint . '.php' . '?' . $parameters;
     $result = file_get_contents($full_url);
 
     if ($result === false) {
