@@ -132,7 +132,7 @@ def insert_sensor():
     if not (boot_date and boot_time):
         return json.dumps({"error": 404})
 
-    res = Database.general_query(f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}', '{location}, '{measures_count})")
+    res = Database.general_query(f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}', '{location}', {measures_count})")
 
     if not res:
         return json.dumps({"error": "undefined"})
@@ -172,8 +172,7 @@ def update_sensor(sensor_id):
 
     elif measures_count:
         if count > 0:
-            query +=
-
+            query += ", "
         query += f"{s.Sensor.MEASURES} = {measures}"
 
 
@@ -227,3 +226,4 @@ def delete_sensor(sensor_id):
     res = Database.general_query(query)
 
     return res
+
