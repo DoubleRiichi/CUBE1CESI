@@ -14,10 +14,16 @@ L'utilisateur en se connectant peut accèder au suivi des dernièrs relevés mé
   * WampServer
   * Apache
   * PhpMyAdmin 5.1
+  * Python
     
 ## Librairies :
+  #### html
   * Leaflet
   * Bootswatch Thèmes gratuit pour bootstrap (https://bootswatch.com/)
-  
+    
+  #### python
+  * Flask (API)
+  * Gunicorn (WSGI)
+  * MariaDB/MySQL connector (BDD)
 
 Projet mené par Hanan, Jimmy, Mael  et Thomas développeurs chez "Lepetit", société qui commercialise des objets connectés pour la maison depuis 1992.
