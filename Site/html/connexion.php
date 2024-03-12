@@ -1,7 +1,5 @@
 <?php 
-
 include 'header.php';
-
 use MeteoCube\Config;
 
 require_once('config.php');
@@ -9,18 +7,18 @@ require_once('database.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['login']) && !empty($_POST['password'])) {
-        $login = $_POST['login'];
-        $password = $_POST['password'];
+        $login      =       $_POST['login'];
+        $password   =       $_POST['password'];
 
         $req = $bdd->prepare('SELECT * FROM utilisateur WHERE login = ?');
         $req->execute(array($login));
         $user = $req->fetch();
 
         if ($user && password_verify($password . $user['salt'], $user['mot_de_passe'])) {
-            // Authentification réussie, démarrez la session et redirigez vers mon_compte.php
+            // Authentification réussie
             session_start();
             $_SESSION['user_id'] = $user['id']; 
-            header("Location: mon_compte.php?success=1");
+            header("Location: mon_compte.php?success=1&message=Bienvenue " . urlencode($login));
             exit();
         } else {
             // Authentification échouée, redirigez vers une page d'erreur
@@ -55,7 +53,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
 
                                 <p class="text-primary text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Connexion</p>
 
-                                <form method="post" action="index.php" class="register-form">
+                                <form method="post" action="mon_compte.php" class="register-form">
 
                                     <div>
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
