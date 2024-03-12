@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `sensor` (
   `id_sensor` int NOT NULL AUTO_INCREMENT,
   `last_boot_date` date NOT NULL,
   `last_boot_time` time NOT NULL,
+  `location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `measures_count` int NOT NULL,
   PRIMARY KEY (`id_sensor`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -69,8 +70,8 @@ CREATE TABLE IF NOT EXISTS `sensor` (
 -- Dumping data for table `sensors`
 --
 
-INSERT INTO `probes` (`id_probes`, `last_boot_date`, `last_boot_time`, `measures_count`) VALUES
-(2, '2024-02-01', '10:00:00', 5);
+INSERT INTO `sensor` (`id_sensor`, `last_boot_date`, `last_boot_time`, `measures_count`) VALUES
+(1, '2024-02-01', '10:00:00', 5);
 
 -- --------------------------------------------------------
 
