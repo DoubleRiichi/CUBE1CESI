@@ -30,11 +30,25 @@ require_once('database.php');
                         Avec un chiffre d\'affaires remarquable de 1,275 milliard d\'euros en 2017, cela a démontré notre excellence dans le domaine.
                         Depuis 2019, nous nous spéacilisons dans les objets connectés pour la maison afin de vous simplifier votre quotidien.<br><br>
                         Aujourd\'hui, nous sommes fière de vous présenter "MeteoCube" une station météorologique connectée de pointe, qui vous permettra de suivre en temps réel les conditions météorologiques de votre région.<br>
+                        Pour plus de fonctionnalités, connectez-vous ou inscrivez-vous dès maintenant.<br>  
                     </p>
                     <div class="text-center">
-                        <h3 class="fw-bolder mb-2">Connectez-vous ou inscrivez-vous</h3>
                         <a class="btn btn-primary d-inline-block mx-2" href="connexion.php">Connexion</a>
                         <a class="btn btn-secondary d-inline-block mx-2" href="inscription.php">Inscription</a>
+                    </div><br>
+                </div>
+                <div class="container text-center">
+                    <h2 class="fw-bolder">Quel temps fait-il aujourd\'hui ?</h2>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-12 col-md-6">
+                        <img src="../img/thermometre.png" alt="lepetit" class="img-fluid">
+                        <h3 class="widget">Température</h3>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <img src="../img/humidite.png" alt="lepetit" class="img-fluid">
+                        <h3 class="widget">Humidité</h3>
+                    </div>
                 </div>
             </div>
             </div>';
