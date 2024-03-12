@@ -21,6 +21,7 @@ L'API renvoie du JSON, utiliser json_decode() en php pour pouvoir utiliser la r�
 
     récupère tous les relevés
 
+
 * **/measures/get/by_date**
     1. <u>*date*</u> -> la date du relevé
     2. <u>*sensor*</u> **OPTIONNEL** -> la sonde, si nulle, prend toutes les sondes
