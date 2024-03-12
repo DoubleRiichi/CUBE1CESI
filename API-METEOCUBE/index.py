@@ -12,7 +12,7 @@ import datetime
 app = Flask(__name__)
 
 
-@app.route('/measures/all', methods=['GET'])
+@app.route('/measures/get/all', methods=['GET'])
 def measures():
     args = request.args
 
@@ -26,7 +26,7 @@ def measures():
     return res
 
 
-@app.route('/measures/by_date', methods=['GET'])
+@app.route('/measures/get/by_date', methods=['GET'])
 def measures_by_date():
     args = request.args
 
@@ -93,7 +93,7 @@ def measures_between_time():
     return Database.general_query(query)
 
 
-@app.route("/measures/get/insert", methods=['POST'])
+@app.route("/measures/insert", methods=['POST'])
 def insert_measures():
     json_input = request.get_json()
 
@@ -126,12 +126,13 @@ def insert_sensor():
     json_input = request.get_json()
     boot_date = json_input['date']
     boot_time = json_input['time']
+    location = json_input['location']
     measures_count = 0
 
     if not (boot_date and boot_time):
         return json.dumps({"error": 404})
 
-    res = Database.general_query(f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}', {measures_count})")
+    res = Database.general_query(f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}', '{location}, '{measures_count})")
 
     if not res:
         return json.dumps({"error": "undefined"})
@@ -149,6 +150,7 @@ def update_sensor(sensor_id):
 
     boot_date = json_input['date']
     boot_time = json_input['time']
+    location = json_input['location']
     measures_count = json_input['count']
 
     query = f"UPDATE {s.Sensor.TABLENAME} SET "
@@ -162,10 +164,18 @@ def update_sensor(sensor_id):
             query += ", "
 
         query += f"{s.Sensor.BOOT_TIME} = '{boot_time}'"
-    elif measures_count:
+    elif location:
         if count > 0:
             query += ", "
+
+        query += f"{s.Sensor.LOCATION} = {location}"
+
+    elif measures_count:
+        if count > 0:
+            query +=
+
         query += f"{s.Sensor.MEASURES} = {measures}"
+
 
     query += f"WHERE {s.Sensor.ID} = {sensor_id}"
 
