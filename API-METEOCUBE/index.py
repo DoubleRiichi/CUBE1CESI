@@ -55,7 +55,8 @@ def measures_last():
 
     if sensor:
         query += f"WHERE `{table.Measures.COL_SENSOR}` = {sensor}"
-    elif n:
+
+    if n:
         query += f"ORDER BY `{table.Measures.COL_DATE}` DESC LIMIT {n}"
     else:
         query += f"ORDER BY `{table.Measures.COL_DATE}` DESC LIMIT 1"
@@ -85,7 +86,7 @@ def measures_between_time():
 
     if sensor:
         query += f"`{table.Measures.COL_SENSOR}` = {sensor} AND "
-    elif date and begin and end:
+    if date and begin and end:
         query += f"`{table.Measures.COL_DATE}` = '{date}' AND `{table.Measures.COL_TIME}` BETWEEN '{begin}' AND '{end}'"
 
     query += ");"
@@ -97,13 +98,13 @@ def measures_between_time():
 def insert_measures():
     json_input = request.get_json()
 
-    temperature = json_input['temperature']
-    humidity = json_input["humidity"]
-    pressure = json_input["pressure"]
+    temperature = json_input.get('temperature')
+    humidity = json_input.get("humidity")
+    pressure = json_input.get("pressure")
     dt = datetime.datetime.now()
     date = dt.strftime("%Y-%m-%d")
     time = dt.strftime("%H:%M:%S")
-    sensor = json_input["sensor"]
+    sensor = json_input.get("sensor")
 
     if not (temperature and humidity and pressure and date and sensor):
         return json.dumps("404")
@@ -124,15 +125,15 @@ def flask_health_check():
 @app.route("/sensor/insert", methods=['POST'])
 def insert_sensor():
     json_input = request.get_json()
-    boot_date = json_input['date']
-    boot_time = json_input['time']
-    location = json_input['location']
+    boot_date = json_input.get('date')
+    boot_time = json_input.get('time')
+    location = json_input.get('location')
     measures_count = 0
 
     if not (boot_date and boot_time):
         return json.dumps({"error": 404})
 
-    res = Database.general_query(f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}', '{location}, '{measures_count})")
+    res = Database.general_query(f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}', '{location}', {measures_count})")
 
     if not res:
         return json.dumps({"error": "undefined"})
@@ -144,14 +145,14 @@ def insert_sensor():
 def update_sensor(sensor_id):
 
     if not sensor_id:
-        return json.dumps({"error": 402})
+        return json.dumps({"error": 400})
 
     json_input = request.get_json()
 
-    boot_date = json_input['date']
-    boot_time = json_input['time']
-    location = json_input['location']
-    measures_count = json_input['count']
+    boot_date = json_input.get('date')
+    boot_time = json_input.get('time')
+    location = json_input.get('location')
+    measures_count = json_input.get('count')
 
     query = f"UPDATE {s.Sensor.TABLENAME} SET "
     count = 0
@@ -159,28 +160,26 @@ def update_sensor(sensor_id):
     if boot_date:
         query += f"{s.Sensor.BOOT_DATE} = '{boot_date}'"
         count += 1
-    elif boot_time:
+    if boot_time:
         if count > 0:
             query += ", "
 
         query += f"{s.Sensor.BOOT_TIME} = '{boot_time}'"
-    elif location:
+    if location:
         if count > 0:
             query += ", "
 
-        query += f"{s.Sensor.LOCATION} = {location}"
+        query += f"{s.Sensor.LOCATION} = '{location}'"
 
-    elif measures_count:
+    if measures_count:
         if count > 0:
-            query +=
-
+            query += ", "
         query += f"{s.Sensor.MEASURES} = {measures}"
 
-
-    query += f"WHERE {s.Sensor.ID} = {sensor_id}"
+    query += f" WHERE {s.Sensor.ID} = {sensor_id}"
+    print(query)
 
     res = Database.general_query(query)
-
     if not res:
         return json.dumps({"error": 404})
 
@@ -227,3 +226,4 @@ def delete_sensor(sensor_id):
     res = Database.general_query(query)
 
     return res
+
