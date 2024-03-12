@@ -65,7 +65,7 @@ L'API renvoie du JSON, utiliser json_decode() en php pour pouvoir utiliser la r�
 * **/sensor/get/*id***
     1. <u>*id*</u> -> l'id de la sonde
 
-    récupère les information d'une sonde selon son id.
+    récupère les information d'une sonde selon son id. <br>
     **REMARQUE** ID est placé directement dans le liens: localhost:5000/sensor/get/1 suffit, pas besoin de faire localhost:5000/sensor/get?id=1
 
 
@@ -85,7 +85,7 @@ L'API renvoie du JSON, utiliser json_decode() en php pour pouvoir utiliser la r�
     3. <u>*time</u> **OPTIONNEL*** -> heure de l'allumage, format "HH:MM:SS"
     4. <u>*location*</u> **OPTIONNEL** -> le lieu de la sonde, un string
     
-    met à jour les données d'une sonde selon son id.
+    met à jour les données d'une sonde selon son id. <br>
     **REMARQUE** ID est placé directement dans le liens: localhost:5000/sensor/get/1 suffit, pas besoin de faire localhost:5000/sensor/get?id=1
 
 
@@ -93,5 +93,5 @@ L'API renvoie du JSON, utiliser json_decode() en php pour pouvoir utiliser la r�
 * **/sensor/delete/*id***
     1. <u>*id*</u> -> id de la sonde à supprimer
 
-    supprime une sonde
+    supprime une sonde <br>
     **REMARQUE** ID est placé directement dans le liens: localhost:5000/sensor/get/1 suffit, pas besoin de faire localhost:5000/sensor/get?id=1
