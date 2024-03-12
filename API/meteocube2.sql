@@ -56,13 +56,13 @@ INSERT INTO `measures` (`id_measures`, `temperature`, `humidity`, `pressure`, `d
 -- Table structure for table `sensors`
 --
 
-DROP TABLE IF EXISTS `probes`;
-CREATE TABLE IF NOT EXISTS `probes` (
-  `id_probes` int NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `sensor`;
+CREATE TABLE IF NOT EXISTS `sensor` (
+  `id_sensor` int NOT NULL AUTO_INCREMENT,
   `last_boot_date` date NOT NULL,
   `last_boot_time` time NOT NULL,
   `measures_count` int NOT NULL,
-  PRIMARY KEY (`id_probes`)
+  PRIMARY KEY (`id_sensor`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
