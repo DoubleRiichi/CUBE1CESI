@@ -20,7 +20,6 @@ echo "<br>";
 
 //$curent_date = date('Y-m-d H:i:s');
 $curent_date = (new DateTime())->format('d-m-Y');
-//echo $curent_date;
 ?>
 
 <div class="container my-5">
@@ -41,7 +40,7 @@ $curent_date = (new DateTime())->format('d-m-Y');
         </div>
     </div>
 
-    <div class="row justify-content-center align-items-center bg-light bg-opacity-75 p-4 rounded-3 text-dark">
+    <!-- <div class="row justify-content-center align-items-center bg-light bg-opacity-75 p-4 rounded-3 text-dark">
     <div class="container my-5">
     <h1 class="fw-bolder text-center">Historique des mesures</h1>
     <canvas id="historiqueMesuresChart" width="400" height="200"></canvas>
@@ -84,34 +83,9 @@ $curent_date = (new DateTime())->format('d-m-Y');
     sondeChart.update();
 
 
-</div>
+</div> -->
 
 
 
 <?php
-
-// Affichage des données
-if ($result_array !== null) {
-    // Vous pouvez supprimer cette partie du code qui affiche les données sous forme de tableau
-
-} else {
-    echo "Erreur lors du décodage JSON.";
-}
-
-//Affichage des données de la dernière mesure
-if ($result_array_last !== null) {
-    // Vous pouvez supprimer cette partie du code qui affiche les données sous forme de tableau
-
-} else {
-    echo "Erreur lors du décodage JSON.";
-}
-
-// Affichage des données de la sonde
-if ($result_array_all_sensor !== null) {
-    // Vous pouvez supprimer cette partie du code qui affiche les données sous forme de tableau
-
-} else {
-    echo "Erreur lors du décodage JSON.";
-}
-
 include 'footer.php'?>
