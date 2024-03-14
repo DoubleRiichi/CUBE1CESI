@@ -6,7 +6,87 @@ function sayHello() {
 sayHello();
 
 //ChartJS
+// Code JavaScript pour générer les graphiques
+    // Historique des mesures
+    var historiqueMesuresCanvas = document.getElementById('historiqueMesuresChart').getContext('2d');
+    var historiqueMesuresChart = new Chart(historiqueMesuresCanvas, {
+        type: 'line',
+        data: {
+            labels: [], // Remplacez les labels par les dates des mesures
+            datasets: [{
+                label: 'Temperature (°C)',
+                data: [], // Remplacez les données par les températures
+                borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 1,
+                fill: false
+            }, {
+                label: 'Humidité (%)',
+                data: [], // Remplacez les données par les humidités
+                borderColor: 'rgb(54, 162, 235)',
+                borderWidth: 1,
+                fill: false
+            }, {
+                label: 'Pression',
+                data: [], // Remplacez les données par les pressions
+                borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
 
+    // Dernières mesures relevées
+    var dernieresMesuresCanvas = document.getElementById('dernieresMesuresChart').getContext('2d');
+    var dernieresMesuresChart = new Chart(dernieresMesuresCanvas, {
+        type: 'line',
+        data: {
+            labels: [], // Remplacez les labels par les noms des mesures
+            datasets: [{
+                label: 'Valeur',
+                data: [], // Remplacez les données par les valeurs des mesures
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    // Sonde
+    var sondeCanvas = document.getElementById('sondeChart').getContext('2d');
+    var sondeChart = new Chart(sondeCanvas, {
+        type: 'line',
+        data: {
+            labels: [], // Remplacez les labels par les lieux des sondes
+            datasets: [{
+                label: 'Dernières mesures',
+                data: [], // Remplacez les données par les dernières mesures des sondes
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
 
 
 
@@ -73,6 +153,8 @@ function initMap() {
 
 // Appeler la fonction une fois que le DOM est complètement chargé
 document.addEventListener('DOMContentLoaded', initMap);
+
+
 
 
 
