@@ -3,8 +3,8 @@ import json
 import mariadb
 
 class _DB:
-    user = "jimmy"
-    password = "root"
+    user = "root"
+    password = ""
     database = "meteocube"
     host = "localhost"
 

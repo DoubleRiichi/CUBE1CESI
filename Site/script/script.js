@@ -5,6 +5,45 @@ function sayHello() {
 }
 sayHello();
 
+//ChartJS
+
+
+
+
+    // Créer le graphique avec Chart.js
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Temperature',
+                data: temperatures,
+                borderColor: 'red',
+                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+            }, {
+                label: 'Humidity',
+                data: humidities,
+                borderColor: 'blue',
+                backgroundColor: 'rgba(0, 0, 255, 0.1)',
+            }, {
+                label: 'Pressure',
+                data: pressures,
+                borderColor: 'green',
+                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+
 function initMap() {
     // Sélectionner l'élément avec l'ID "map"
     let mapElement = document.getElementById('map');

@@ -27,6 +27,7 @@ session_start();
     <script src="../js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./../script/script.js"></script>
 </head>
 
@@ -44,6 +45,9 @@ session_start();
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="meteo.php">Météo du jour</a>
                     </li>
                     <?php
                     // Vérifie si le paramètre 'success' est présent dans l'URL

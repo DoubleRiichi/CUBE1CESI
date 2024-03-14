@@ -6,14 +6,14 @@ require_once('config.php');
 require_once('database.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST['login']) && !empty($_POST['mot_de_passe']) && !empty($_POST['email'])) {
+    if (!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['email'])) {
     
         $login      = $_POST['login'];
         $email      = $_POST['email'];
-        $password   = $_POST['mot_de_passe'];
+        $password   = $_POST['password'];
 
         // Vérifiez si l'email existe déjà dans la base de données
-        $req = $bdd->prepare('SELECT count(*) as numberEmail FROM utilisateur WHERE email = ?');
+        $req = $bdd->prepare('SELECT count(*) as numberEmail FROM users WHERE email = ?');
         $req->execute(array($email));
 
         $email_verification = $req->fetch();
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = password_hash($password . $salt, PASSWORD_BCRYPT);
 
         // Insertion dans la base de données
-        $req = $bdd->prepare('INSERT INTO utilisateur (login, email, mot_de_passe, Role) VALUES (?, ?, ?, ?)');
+        $req = $bdd->prepare('INSERT INTO users (login, email, password, role) VALUES (?, ?, ?, ?)');
         $req->execute(array($login, $email, $password, 'user'));
 
         // Redirection après l'inscription réussie
@@ -48,11 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body my-5">
                         <div class="row justify-content-center">
                             <div class="col-md-10 col-lg-8 col-xl-6 order-2 order-lg-1">
-
                                 <p class="text-primary text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Inscription</p>
 
                                 <form method="post" action="inscription.php" class="register-form">
-
                                     <div>
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="mb-3">
@@ -72,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div>
                                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                         <div class="mb-3">
-                                            <input type="password" name ="mot_de_passe" required class="form-control" />
+                                            <input type="password" name ="password" required class="form-control" />
                                             <label class="form-label" >Mot de passe</label>
                                         </div>
                                     </div>

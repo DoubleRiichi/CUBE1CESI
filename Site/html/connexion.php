@@ -1,6 +1,6 @@
 <?php 
 include 'header.php';
-use MeteoCube\Config;
+
 
 require_once('config.php');
 require_once('database.php');
@@ -10,11 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $login      =       $_POST['login'];
         $password   =       $_POST['password'];
 
-        $req = $bdd->prepare('SELECT * FROM utilisateur WHERE login = ?');
+        $req = $bdd->prepare('SELECT * FROM users WHERE login = ?');
         $req->execute(array($login));
         $user = $req->fetch();
 
-        if ($user && password_verify($password . $user['salt'], $user['mot_de_passe'])) {
+        if ($user && password_verify($password . $user['salt'], $user['password'])) {
             // Authentification réussie
             session_start();
             $_SESSION['user_id'] = $user['id']; 

@@ -19,7 +19,7 @@ require_once('database.php');
         {
             echo' <div class="container my-5 text-white">
             <div class="row">
-            <h1 class="fw-bold">Bienvenue sur MeteoCube</h1>
+            <h1 class="text-primary fw-bold">Bienvenue sur MeteoCube</h1>
                 <div class="col-md-6 text-center">
                     <img src="../img/baloon.png" alt="station" class="img-fluid">
                 </div>    
@@ -36,22 +36,7 @@ require_once('database.php');
                         <a class="btn btn-primary d-inline-block mx-2" href="connexion.php">Connexion</a>
                         <a class="btn btn-secondary d-inline-block mx-2" href="inscription.php">Inscription</a>
                     </div><br>
-                </div>
-                <div class="container text-center">
-                    <h2 class="fw-bolder">Quel temps fait-il aujourd\'hui ?</h2>
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-12 col-md-6">
-                        <img src="../img/thermometre.png" alt="lepetit" class="img-fluid">
-                        <h3 class="widget">Température</h3>
-                    </div>
-
-                    <div class="col-12 col-md-6">
-                        <img src="../img/humidite.png" alt="lepetit" class="img-fluid">
-                        <h3 class="widget">Humidité</h3>
-                    </div>
-                </div>
-            </div>
-            </div>';
+                </div>';
         }
         ?>
     </section>

@@ -34,3 +34,9 @@ footer {
 #map {
     height: 400px;
 }
+
+.widget{
+    display: inline-block;
+}
+
+
