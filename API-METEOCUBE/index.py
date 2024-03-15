@@ -106,10 +106,13 @@ def insert_measures():
     time = dt.strftime("%H:%M:%S")
     sensor = json_input.get("sensor")
 
+    print(date)
+    print(time)
+
     if not (temperature and humidity and pressure and date and sensor):
         return json.dumps("404")
 
-    res = Database.general_query(f"INSERT INTO `{table.Measures.TABLENAME}` VALUES (0, {temperature}, {humidity}, {pressure}, '{date}', {sensor}, '{time}')")
+    res = Database.general_query(f"INSERT INTO `{table.Measures.TABLENAME}` VALUES (0, {temperature}, {humidity}, {pressure}, '{date}', '{time}', (SELECT {s.Sensor.ID} FROM `{s.Sensor.TABLENAME}` WHERE {s.Sensor.ID} = {sensor}))")
 
     if not res:
         return json.dumps("ERROR")
@@ -133,7 +136,9 @@ def insert_sensor():
     if not (boot_date and boot_time):
         return json.dumps({"error": 404})
 
-    res = Database.general_query(f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}', '{location}', {measures_count})")
+
+    query = f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}  ', '{location}', {measures_count})"
+    res = Database.general_query(query)
 
     if not res:
         return json.dumps({"error": "undefined"})

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 14, 2024 at 10:04 AM
+-- Generation Time: Mar 15, 2024 at 12:21 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.13
 
@@ -36,24 +36,22 @@ CREATE TABLE IF NOT EXISTS `measures` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `#id_sensor` int NOT NULL,
-  PRIMARY KEY (`id_measures`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id_measures`),
+  KEY `#id_sensor` (`#id_sensor`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `measures`
 --
 
 INSERT INTO `measures` (`id_measures`, `temperature`, `humidity`, `pressure`, `date`, `time`, `#id_sensor`) VALUES
-(1, 32, 15, 100, '2024-02-13', '00:00:00', 2),
-(2, 21, 47, 78, '2024-02-02', '00:00:00', 2),
-(3, 0, 0, 0, '2021-01-02', '00:00:00', 2),
-(4, 60, 100, 52, '2024-02-13', '10:49:55', 2),
-(5, 32, 14, 52, '2024-01-04', '10:49:20', 2);
+(6, 25, 50, 988, '2024-03-14', '15:45:27', 1),
+(13, 25, 50, 988, '2024-01-02', '12:11:10', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sensors`
+-- Table structure for table `sensor`
 --
 
 DROP TABLE IF EXISTS `sensor`;
@@ -61,17 +59,17 @@ CREATE TABLE IF NOT EXISTS `sensor` (
   `id_sensor` int NOT NULL AUTO_INCREMENT,
   `last_boot_date` date NOT NULL,
   `last_boot_time` time NOT NULL,
-  `location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `location` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
   `measures_count` int NOT NULL,
   PRIMARY KEY (`id_sensor`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
--- Dumping data for table `sensors`
+-- Dumping data for table `sensor`
 --
 
-INSERT INTO `sensor` (`id_sensor`, `last_boot_date`, `last_boot_time`, `measures_count`) VALUES
-(1, '2024-02-01', '10:00:00', 5);
+INSERT INTO `sensor` (`id_sensor`, `last_boot_date`, `last_boot_time`, `location`, `measures_count`) VALUES
+(1, '2024-03-14', '15:29:30', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -81,17 +79,23 @@ INSERT INTO `sensor` (`id_sensor`, `last_boot_date`, `last_boot_time`, `measures
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `id_users` int NOT NULL AUTO_INCREMENT,
-  `login` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_users` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `login` varchar(50) COLLATE utf8mb4_bin NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `password` varchar(500) COLLATE utf8mb4_bin NOT NULL,
+  `role` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-INSERT INTO `users` (`id_users`, `login`, `email`, `password`, `role`) VALUES
-(1 ,"Admin", "admin@meteocube", "admin", "admin");
+--
+-- Constraints for dumped tables
+--
 
+--
+-- Constraints for table `measures`
+--
+ALTER TABLE `measures`
+  ADD CONSTRAINT `measures_ibfk_1` FOREIGN KEY (`#id_sensor`) REFERENCES `sensor` (`id_sensor`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

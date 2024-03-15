@@ -1,25 +1,3 @@
-/*
-BME280 I2C Test.ino
-
-This code shows how to record data from the BME280 environmental sensor
-using I2C interface. This file is an example file, part of the Arduino
-BME280 library.
-
-GNU General Public License
-
-Written: Dec 30 2015.
-Last Updated: Oct 07 2017.
-
-Connecting the BME280 Sensor:
-Sensor              ->  Board
------------------------------
-Vin (Voltage In)    ->  3.3V
-Gnd (Ground)        ->  Gnd
-SDA (Serial Data)   ->  A4 on Uno/Pro-Mini, 20 on Mega2560/Due, 2 Leonardo/Pro-Micro
-SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-Micro
-
- */
-
 #include <BME280I2C.h>
 #include <Wire.h>
 #include <Adafruit_SSD1327.h>
@@ -35,9 +13,10 @@ SCK (Serial Clock)  ->  A5 on Uno/Pro-Mini, 21 on Mega2560/Due, 3 Leonardo/Pro-M
 const char* ssid = STASSID;
 const char* password = STAPSK;
 
-const char* host = "localhost";
-const uint16_t port = 5000;
-const uint16_t SENSOR_ID = 1;
+const String HOST = "172.20.10.2";
+const String PORT = "5000";
+const String URL = "http://" + HOST + ":" + PORT; 
+const int SENSOR_ID = 1;
 
 BME280I2C bme;    // Default : forced mode, standby time = 1000 ms
                   // Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off,
@@ -56,7 +35,7 @@ void setup()
   Serial.begin(9600);
 
   while(!Serial) {} // Wait
-
+  Serial.print(URL);
   Wire.begin(0, 2);
 
   if ( ! display.begin(0x3D) ) {
@@ -107,45 +86,38 @@ void setup()
 //////////////////////////////////////////////////////////////////
 void loop()
 {
-    Measures current;
-    current = printBME280Data(&Serial);
+    int temp_total = 0;
+    int humidity_total = 0;
+    int pressure_total = 0;
 
-    WiFiClient client;
-    HTTPClient http;
-    Serial.print("passed");
-    Serial.print("[HTTP] begin...\n");
-    // configure traged server and url
-    http.begin(client, "http://172.20.10.2:5000/measures/insert");
-    //http.addHeader("Content-Type", "application/json");
-    http.addHeader("Content-Type", "application/json");
-    Serial.print("[HTTP] POST...\n");
-    // start connection and send HTTP header and body
+    int count = 0;
 
-    String json_query = "{\"temperature\": " + String((int) current.temp) + ", \"pressure\": " + String((int) current.humidity) + ", \"humidity\": " + String((int) current.humidity) + ", \"sensor\": " + String(SENSOR_ID) + "}";
-    Serial.print(json_query);
+    while(count <= 5) {
+      
+      Measures current;
+      current = printBME280Data(&Serial);
 
-    //int httpCode = http.POST(json_query);
-    int httpCode = http.POST(json_query);
+      int temperature = current.temp;
+      int humidity = current.humidity;
+      int pressure = current.pressure;
 
-    // httpCode will be negative on error
-    if (httpCode > 0) {
-      // HTTP header has been send and Server response header has been handled
-      Serial.printf("[HTTP] POST... code: %d\n", httpCode);
+      if(temperature > -100 && temperature < 100 && humidity >= 0 && humidity <= 101 && pressure > 500 && pressure < 1500) {
+        
+        temp_total += temperature;
+        humidity_total += humidity;
+        pressure_total += pressure;
 
-      // file found at server
-      if (httpCode == HTTP_CODE_OK) {
-        const String& payload = http.getString();
-        Serial.println("received payload:\n<<");
-        Serial.println(payload);
-        Serial.println(">>");
+        delay(12000);
+        count++;
       }
-    } else {
-      Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
     }
 
-    http.end();
+    temp_total = temp_total / count;
+    humidity_total = humidity_total / count;
+    pressure_total = pressure_total / count;
 
-  delay(10000);
+    Serial.printf("Sending temp: %d hum: %d pressure: %d", temp_total, humidity_total, pressure_total);
+    sendMeasures("/measures/insert", temp_total, humidity_total, pressure_total);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -198,4 +170,44 @@ Measures printBME280Data(Stream* client)
   current.humidity = hum;
 
   return current;
+}
+
+
+void sendMeasures(String endpoint, int temperature, int humidity, int pressure) {
+    WiFiClient client;
+    HTTPClient http;
+
+    Serial.print("[HTTP] begin...\n");
+
+    // configure traged server and url
+    http.begin(client, URL + endpoint);
+
+    http.addHeader("Content-Type", "application/json");
+    Serial.print("[HTTP] POST...\n");
+    
+    // start connection and send HTTP header and body
+
+    String json_query = "{\"temperature\": " + String(temperature) + ", \"pressure\": " + String(pressure) + ", \"humidity\": " + String(humidity) + ", \"sensor\": 1}";
+    Serial.print(json_query);
+
+    
+    int httpCode = http.POST(json_query);
+
+    // httpCode will be negative on error
+    if (httpCode > 0) {
+          // HTTP header has been send and Server response header has been handled
+          Serial.printf("[HTTP] POST... code: %d\n", httpCode);
+
+          // file found at server
+          if (httpCode == HTTP_CODE_OK) {
+            const String& payload = http.getString();
+            Serial.println("received payload:\n<<");
+            Serial.println(payload);
+            Serial.println(">>");
+          }
+        } else {    
+          Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
+        }
+
+        http.end();  
 }
