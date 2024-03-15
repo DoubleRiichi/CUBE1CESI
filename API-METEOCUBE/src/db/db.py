@@ -5,7 +5,7 @@ import mariadb
 class _DB:
     user = "root"
     password = ""
-    database = "meteocube"
+    database = "test2"
     host = "localhost"
 
     @staticmethod

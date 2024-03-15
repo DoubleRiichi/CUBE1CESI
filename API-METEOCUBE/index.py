@@ -112,7 +112,10 @@ def insert_measures():
     if not (temperature and humidity and pressure and date and sensor):
         return json.dumps("404")
 
-    res = Database.general_query(f"INSERT INTO `{table.Measures.TABLENAME}` VALUES (0, {temperature}, {humidity}, {pressure}, '{date}', '{time}', (SELECT {s.Sensor.ID} FROM `{s.Sensor.TABLENAME}` WHERE {s.Sensor.ID} = {sensor}))")
+    query = f"INSERT INTO `{table.Measures.TABLENAME}` VALUES (0, {temperature}, {humidity}, {pressure}, '{date}', '{time}', (SELECT {s.Sensor.ID} FROM `{s.Sensor.TABLENAME}` WHERE {s.Sensor.ID} = {sensor}))"
+    print(query)
+
+    res = Database.general_query(query)
 
     if not res:
         return json.dumps("ERROR")
