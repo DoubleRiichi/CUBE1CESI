@@ -2,14 +2,22 @@
 # encoding: utf-8
 import json
 
+
+
 from flask import Flask, request
+from flask_cors import CORS
 import src.db.db as Database
 import src.classes.measures as table
 import src.classes.sensor as s
 import datetime
 
 
+
+
 app = Flask(__name__)
+CORS(app)
+
+
 
 
 @app.route('/measures/get/all', methods=['GET'])
