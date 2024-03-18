@@ -16,23 +16,39 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeteoCube 🌤️</title>
+    <!-- Inclusion de jQuery pour les fonctionnalités JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Inclusion de Bootstrap et de bootswatch (template gratuit pour personnaliser bootstrap) -->
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/cosmo/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="./../css/bootstrap.min.css">
+    <!-- Inclusion de Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Inclusion de Leaflet pour les cartes -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Inclusion de DataTables pour les tableaux -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <!-- Lien pour notre fichier CSS -->
     <link rel="stylesheet" href="./../css/style.css">
+    <!-- Script nécessaire pour le fonctionnement de la carte, bootstrap et jquery  -->
     <script src="./../js/jquery-3.6.0.min.js"></script>
     <script src="./../js/popper.min.js"></script>
+    <!-- Script necessaire pour bootstrap -->
     <script src="../js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- Script nécessaire pour le fonctionnement de la carte -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Script nécessaire pour le fonctionnement de DataTables -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <!-- Script nécessaire pour le fonctionnement de Chart.js (librairies pour les graphiques) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lien pour notre fichier JS -->
     <script src="./../script/script.js"></script>
 </head>
 
 <body>
    <header>
+    <!-- Barre de navigation -->
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php">
