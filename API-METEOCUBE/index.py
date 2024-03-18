@@ -54,7 +54,7 @@ def measures_last():
     query = f"SELECT * FROM {table.Measures.TABLENAME} "
 
     if sensor:
-        query += f"WHERE `{table.Measures.COL_SENSOR}` = {sensor}"
+        query += f"WHERE `{table.Measures.COL_SENSOR}` = {sensor} "
 
     if n:
         query += f"ORDER BY `{table.Measures.COL_DATE}` DESC LIMIT {n}"
@@ -121,11 +121,6 @@ def insert_measures():
         return json.dumps("ERROR")
 
     return res
-
-
-@app.route('/flask-health-check')
-def flask_health_check():
-    return "success"
 
 
 @app.route("/sensor/insert", methods=['POST'])
@@ -230,8 +225,10 @@ def delete_sensor(sensor_id):
         return json.dumps({"error": 400})
 
     query = f"DELETE FROM {s.Sensor.TABLENAME} WHERE {s.Sensor.ID} = {sensor_id}"
-
     res = Database.general_query(query)
 
-    return res
+    query2 = f"DELETE FROM {table.Measures.TABLENAME} WHERE `{table.Measures.COL_SENSOR}` = (select {s.Sensor.ID} from {s.Sensor.TABLENAME} where {s.Sensor.ID} = {sensor_id})"
+    res2 = Database.general_query(query2)
+ 
+    return res2
 

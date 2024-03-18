@@ -75,8 +75,6 @@ void setup()
     Serial.print(".");
   }
 
-
-
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
