@@ -20,6 +20,7 @@ L'utilisateur en se connectant peut accèder au suivi des dernièrs relevés mé
   #### html
   * Leaflet
   * Bootswatch Thèmes gratuit pour bootstrap (https://bootswatch.com/)
+  * Chart.js
     
   #### python
   * Flask (API)
