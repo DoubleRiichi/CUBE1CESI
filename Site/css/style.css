@@ -8,7 +8,7 @@ body {
     background-image: url('/Site/img/mountain.jpg'); 
     background-size: cover;
     background-position: center;
-    color: white;
+    /* color: white; */
 }
 
 img{

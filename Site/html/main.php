@@ -24,8 +24,8 @@ require_once('database.php');
                     <img src="../img/baloon.png" alt="station" class="img-fluid">
                 </div>    
                 <div class="col-md-6">
-                    <h2 class="fw-bolder">Qui sommes-nous ?</h2>
-                    <p class="fw-bolder">
+                    <h2 class="fw-bolder text-primary">Qui sommes-nous ?</h2>
+                    <p class="fw-bolder text-primary">
                         Fondée en 1992, la société "LePetit" s\'est imposée comme un acteur majeur de l\'industrie technologique.<br>
                         Avec un chiffre d\'affaires remarquable de 1,275 milliard d\'euros en 2017, cela a démontré notre excellence dans le domaine.
                         Depuis 2019, nous nous spéacilisons dans les objets connectés pour la maison afin de vous simplifier votre quotidien.<br><br>

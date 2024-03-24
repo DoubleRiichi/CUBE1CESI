@@ -39,7 +39,7 @@ $(document).ready(function() {
         // Ajouter les données au tableau
         $('#mesures-table').DataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json' // Charger les traductions en français
+                url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json' 
             },
             data: data,
             columns: [
@@ -55,8 +55,56 @@ $(document).ready(function() {
 });
 
 
+//Page pour afficher le graphique
+$(document).ready(function() {
+    const url = 'http://127.0.0.1:5000/measures/get/last';
+    let endpoint = 'all'; // Par défaut, obtenir toutes les mesures
 
+    // Écouter les changements dans les boutons radio
+    $('input[type=radio][name=selection]').change(function() {
+        if (this.value === 'last-all') {
+            endpoint = 'all';
+        } else if (this.value === 'last-one') {
+            endpoint = 'last';
+        }
 
+        // Mettre à jour le graphique
+        updateChart(endpoint);
+    });
+
+    // Fonction pour obtenir les données et mettre à jour le graphique
+    function updateChart(endpoint) {
+        const apiUrl = `http://127.0.0.1:5000/measures/get/${endpoint}`;
+        $.getJSON(apiUrl, function(data) {
+            const dates = data.map(entry => entry.date);
+            const temperatures = data.map(entry => entry.temperature);
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Température (°C)',
+                        data: temperatures,
+                        borderColor: 'rgb(255, 99, 132)', // Rouge
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    }
+
+    // Charger le graphique avec les dernières mesures par défaut
+    updateChart(endpoint);
+});
 
 // Appeler la fonction une fois que le DOM est complètement chargé
 document.addEventListener('DOMContentLoaded', initMap);
