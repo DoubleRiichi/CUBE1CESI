@@ -62,7 +62,7 @@ def measures_last():
     query = f"SELECT * FROM {table.Measures.TABLENAME} "
 
     if sensor:
-        query += f"WHERE `{table.Measures.COL_SENSOR}` = {sensor}"
+        query += f"WHERE `{table.Measures.COL_SENSOR}` = {sensor} "
 
     if n:
         query += f"ORDER BY `{table.Measures.COL_DATE}` DESC LIMIT {n}"
@@ -114,20 +114,21 @@ def insert_measures():
     time = dt.strftime("%H:%M:%S")
     sensor = json_input.get("sensor")
 
+    print(date)
+    print(time)
+
     if not (temperature and humidity and pressure and date and sensor):
         return json.dumps("404")
 
-    res = Database.general_query(f"INSERT INTO `{table.Measures.TABLENAME}` VALUES (0, {temperature}, {humidity}, {pressure}, '{date}', {sensor}, '{time}')")
+    query = f"INSERT INTO `{table.Measures.TABLENAME}` VALUES (0, {temperature}, {humidity}, {pressure}, '{date}', '{time}', (SELECT {s.Sensor.ID} FROM `{s.Sensor.TABLENAME}` WHERE {s.Sensor.ID} = {sensor}))"
+    print(query)
+
+    res = Database.general_query(query)
 
     if not res:
         return json.dumps("ERROR")
 
     return res
-
-
-@app.route('/flask-health-check')
-def flask_health_check():
-    return "success"
 
 
 @app.route("/sensor/insert", methods=['POST'])
@@ -141,7 +142,9 @@ def insert_sensor():
     if not (boot_date and boot_time):
         return json.dumps({"error": 404})
 
-    res = Database.general_query(f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}', '{location}', {measures_count})")
+
+    query = f"INSERT INTO `{s.Sensor.TABLENAME}` VALUE (0, '{boot_date}', '{boot_time}  ', '{location}', {measures_count})"
+    res = Database.general_query(query)
 
     if not res:
         return json.dumps({"error": "undefined"})
@@ -230,8 +233,10 @@ def delete_sensor(sensor_id):
         return json.dumps({"error": 400})
 
     query = f"DELETE FROM {s.Sensor.TABLENAME} WHERE {s.Sensor.ID} = {sensor_id}"
-
     res = Database.general_query(query)
 
-    return res
+    query2 = f"DELETE FROM {table.Measures.TABLENAME} WHERE `{table.Measures.COL_SENSOR}` = (select {s.Sensor.ID} from {s.Sensor.TABLENAME} where {s.Sensor.ID} = {sensor_id})"
+    res2 = Database.general_query(query2)
+ 
+    return res2
 
