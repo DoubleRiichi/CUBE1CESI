@@ -6,7 +6,7 @@
 #include <string>
 
 #ifndef STASSID
-#define STASSID "meteocube"
+#define STASSID "DanaIphone"
 #define STAPSK "meteocube"
 #endif
 
