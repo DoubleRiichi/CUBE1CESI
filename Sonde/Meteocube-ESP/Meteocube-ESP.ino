@@ -6,14 +6,14 @@
 #include <string>
 
 #ifndef STASSID
-#define STASSID "DanaIphone"
+#define STASSID "meteocube"
 #define STAPSK "meteocube"
 #endif
 
 const char* ssid = STASSID;
 const char* password = STAPSK;
 
-const String HOST = "172.20.10.2";
+const String HOST = "172.20.10.3";
 const String PORT = "5000";
 const String URL = "http://" + HOST + ":" + PORT; 
 const int SENSOR_ID = 1;
@@ -30,12 +30,11 @@ typedef struct measures {
 } Measures;
 
 //////////////////////////////////////////////////////////////////
-void setup()
-{
+void setup() {
   Serial.begin(9600);
 
   while(!Serial) {} // Wait
-  Serial.print(URL);
+  Serial.println(URL);
   Wire.begin(0, 2);
 
   if ( ! display.begin(0x3D) ) {
@@ -45,14 +44,12 @@ void setup()
   display.clearDisplay();
   display.display();
 
-  while(!bme.begin())
-  {
+  while(!bme.begin()) {
     Serial.println("Could not find BME280 sensor!");
     delay(1000);
   }
 
-  switch(bme.chipModel())
-  {
+  switch(bme.chipModel()) {
     case BME280::ChipModel_BME280:
       Serial.println("Found BME280 sensor! Success.");
       break;
@@ -63,7 +60,6 @@ void setup()
       Serial.println("Found UNKNOWN sensor! Error!");
   }
 
-  Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -77,50 +73,46 @@ void setup()
 
   Serial.println("");
   Serial.println("WiFi connected");
-  Serial.println("IP address: ");
+  Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 }
 
 //////////////////////////////////////////////////////////////////
-void loop()
-{
-    int temp_total = 0;
-    int humidity_total = 0;
-    int pressure_total = 0;
+void loop() {
+  int temp_total = 0;
+  int humidity_total = 0;
+  int pressure_total = 0;
+  int count = 0;
 
-    int count = 0;
+  while(count <= 5) {
+    Measures current;
+    current = printBME280Data(&Serial);
 
-    while(count <= 5) {
-      
-      Measures current;
-      current = printBME280Data(&Serial);
+    int temperature = current.temp;
+    int humidity = current.humidity;
+    int pressure = current.pressure;
 
-      int temperature = current.temp;
-      int humidity = current.humidity;
-      int pressure = current.pressure;
-
-      if(temperature > -100 && temperature < 100 && humidity >= 0 && humidity <= 101 && pressure > 500 && pressure < 1500) {
+    if(temperature > -100 && temperature < 100 && humidity >= 0 && humidity <= 101 && pressure > 500 && pressure < 1500) {
         
-        temp_total += temperature;
-        humidity_total += humidity;
-        pressure_total += pressure;
+      temp_total += temperature;
+      humidity_total += humidity;
+      pressure_total += pressure;
 
-        delay(12000);
-        count++;
-      }
+      delay(12000);
+      count++;
     }
+  }
 
-    temp_total = temp_total / count;
-    humidity_total = humidity_total / count;
-    pressure_total = pressure_total / count;
+  temp_total = temp_total / count;
+  humidity_total = humidity_total / count;
+  pressure_total = pressure_total / count;
 
-    Serial.printf("Sending temp: %d hum: %d pressure: %d", temp_total, humidity_total, pressure_total);
-    sendMeasures("/measures/insert", temp_total, humidity_total, pressure_total);
+  Serial.printf("Sending temp: %d hum: %d pressure: %d \n", temp_total, humidity_total, pressure_total);
+  sendMeasures("/measures/insert", temp_total, humidity_total, pressure_total);
 }
 
 //////////////////////////////////////////////////////////////////
-Measures printBME280Data(Stream* client)
-{
+Measures printBME280Data(Stream* client) {
   float temp(NAN), hum(NAN), pres(NAN);
   Measures current;
 
@@ -133,33 +125,41 @@ Measures printBME280Data(Stream* client)
 
   client->print("Temp: ");
   client->print(temp);
-  client->print("°"+ String(tempUnit == BME280::TempUnit_Celsius ? 'C' :'F'));
+  client->print(" °" + String(tempUnit == BME280::TempUnit_Celsius ? 'C' :'F'));
   client->print("\t\tHumidity: ");
   client->print(hum);
-  client->print("% RH");
+  client->print(" % RH");
   client->print("\t\tPressure: ");
   client->print(pres);
-  client->println("hPa");
+  client->println(" hPa");
 
   //Display Part
 
   display.clearDisplay();
-  display.setCursor(0,0);
+  display.setCursor(12, 2);
+
+  display.setTextSize(2);
+  display.print("MeteoCube");
 
   display.print("\n");
-  display.print("Temp: ");
-  display.print(temp);
-  display.print("\t"+ String(tempUnit == BME280::TempUnit_Celsius ? 'C' :'F'));
   display.print("\n");
+
+  display.setTextSize(1);
+
+  display.print("Temp:     ");
+  display.print(temp);
+  display.println(" \t" + String(tempUnit == BME280::TempUnit_Celsius ? 'C' :'F') + "\n");
 
   display.print("Humidity: ");
   display.print(hum);
-  display.print("% RH");
-  display.print("\n");
+  display.println(" % RH \n");
 
   display.print("Pressure: ");
   display.print(pres);
-  display.println("hPa");
+  display.println(" hPa");
+
+  display.setCursor(20, 118);
+  display.print(WiFi.localIP());
 
   display.display();
 
@@ -172,40 +172,41 @@ Measures printBME280Data(Stream* client)
 
 
 void sendMeasures(String endpoint, int temperature, int humidity, int pressure) {
-    WiFiClient client;
-    HTTPClient http;
+  WiFiClient client;
+  HTTPClient http;
 
-    Serial.print("[HTTP] begin...\n");
+  Serial.print("[HTTP] begin...\n");
 
-    // configure traged server and url
-    http.begin(client, URL + endpoint);
+  // configure traged server and url
+  http.begin(client, URL + endpoint);
 
-    http.addHeader("Content-Type", "application/json");
-    Serial.print("[HTTP] POST...\n");
+  http.addHeader("Content-Type", "application/json");
+  Serial.print("[HTTP] POST...\n");
     
-    // start connection and send HTTP header and body
+  // start connection and send HTTP header and body
 
-    String json_query = "{\"temperature\": " + String(temperature) + ", \"pressure\": " + String(pressure) + ", \"humidity\": " + String(humidity) + ", \"sensor\": 1}";
-    Serial.print(json_query);
+  String json_query = "{\"temperature\": " + String(temperature) + ", \"pressure\": " + String(pressure) + ", \"humidity\": " + String(humidity) + ", \"sensor\": 1}";
+  Serial.print(json_query);
 
     
-    int httpCode = http.POST(json_query);
+  int httpCode = http.POST(json_query);
 
-    // httpCode will be negative on error
-    if (httpCode > 0) {
-          // HTTP header has been send and Server response header has been handled
-          Serial.printf("[HTTP] POST... code: %d\n", httpCode);
+  // httpCode will be negative on error
+  if (httpCode > 0) {
+    // HTTP header has been send and Server response header has been handled
+    Serial.printf("[HTTP] POST... code: %d\n", httpCode);
 
-          // file found at server
-          if (httpCode == HTTP_CODE_OK) {
-            const String& payload = http.getString();
-            Serial.println("received payload:\n<<");
-            Serial.println(payload);
-            Serial.println(">>");
-          }
-        } else {    
-          Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
-        }
+    // file found at server
+    if (httpCode == HTTP_CODE_OK) {
+      const String& payload = http.getString();
+      Serial.print("received payload: << ");
+      Serial.print(payload);
+      Serial.println(" >>");
+    }
+  }
+  else {    
+    Serial.printf("[HTTP] POST... failed, error: %s\n", http.errorToString(httpCode).c_str());
+  }
 
-        http.end();  
+  http.end();  
 }
