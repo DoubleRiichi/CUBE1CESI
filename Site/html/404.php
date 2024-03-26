@@ -1,7 +1,4 @@
 <?php 
-
-require_once('database.php');
-
 use MeteoCube\Config;
 
 require_once('config.php');

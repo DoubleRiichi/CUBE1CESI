@@ -2,7 +2,6 @@
 
 use MeteoCube\Config;
 require_once('config.php');
-require_once('database.php');
 
 ?>
 
@@ -23,7 +22,8 @@ require_once('database.php');
                 <div class="col-md-6 text-center">
                     <img src="../img/baloon.png" alt="station" class="img-fluid">
                 </div>    
-                <div class="col-md-6">
+                <div class="col-md-6 bg-light bg-opacity-75 p-4 rounded-3 text-dark
+                ">
                     <h2 class="fw-bolder text-primary">Qui sommes-nous ?</h2>
                     <p class="fw-bolder text-primary">
                         Fondée en 1992, la société "LePetit" s\'est imposée comme un acteur majeur de l\'industrie technologique.<br>

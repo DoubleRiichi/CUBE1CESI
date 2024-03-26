@@ -3,7 +3,6 @@ include 'header.php';
 use MeteoCube\Config;
 
 require_once('config.php');
-require_once('database.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['email'])) {

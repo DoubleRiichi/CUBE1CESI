@@ -34,7 +34,7 @@ function initMap() {
 //Page meteo pour afficher le resultat en tableau
 $(document).ready(function() {
     // Récupérer les données depuis l'API
-    const url = 'http://127.0.0.1:5000/measures/get/all';
+    const url = 'http://rock-4c-plus:5000/measures/get/all';
     $.getJSON(url, function(data) {
         // Ajouter les données au tableau
         $('#mesures-table').DataTable({
@@ -50,14 +50,17 @@ $(document).ready(function() {
             ],
             order: [[3, 'desc']], // Trier par date décroissante
             pageLength: 10 // Limiter à 10 résultats par page
+            
         });
+
+       
     });
 });
 
 
 //Page pour afficher le graphique
 $(document).ready(function() {
-    const url = 'http://127.0.0.1:5000/measures/get/last';
+    const url = 'http://rock-4c-plus:5000/measures/get/last';
     let endpoint = 'all'; // Par défaut, obtenir toutes les mesures
 
     // Écouter les changements dans les boutons radio
@@ -74,7 +77,7 @@ $(document).ready(function() {
 
     // Fonction pour obtenir les données et mettre à jour le graphique
     function updateChart(endpoint) {
-        const apiUrl = `http://127.0.0.1:5000/measures/get/${endpoint}`;
+        const apiUrl = `http://rock-4c-plus:5000/measures/get/${endpoint}`;
         $.getJSON(apiUrl, function(data) {
             const dates = data.map(entry => entry.date);
             const temperatures = data.map(entry => entry.temperature);
